@@ -32,28 +32,28 @@ int main() {
             }
             char ch1 = line[i];
             char ch2 = line[i+1];
-            char ch3 = line[i+2];
-            
-            if(ch1 == ch3 && ch1 != ch2) { 
-                pairing_count++;
-            }
-            
-            for(int j = 2; j < len - 2; j++) { 
-                char ch4 = line[j];
-                char ch5 = line[j+1];
-                if(ch1 == ch4 && ch2 == ch5) {
-                    reapearing_count++;
-                } 
-            }
-        }
-        if(reapearing_count > 0 && pairing_count > 0) {
-            num_nice_string++;
-            reapearing_count = 0;
-            pairing_count = 0;
-        }
 
+            for(int j = i; j < len; j++) {
+                char ch3 = line[j + 2];
+                char ch4 = line[j+3];
+                if(ch1 == ch3 && ch2 == ch4) { 
+                    reapearing_count++;
+                }
+
+                if(ch1 == ch3 && ch1 != ch2) { 
+                    pairing_count++;
+                }
+
+                if(reapearing_count > 0 && pairing_count > 0) {
+                    num_nice_string++;
+                    reapearing_count = 0;
+                    pairing_count = 0;
+                    break;
+                }
+            }
+
+        }
     }
     printf("The number of nice strings is: %i", num_nice_string);   
 }
-
 
