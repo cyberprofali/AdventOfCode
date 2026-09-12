@@ -27,27 +27,35 @@ int main() {
         }
 
         for(int i = 0; i < len; i++) { 
-            if(len < 3) {
-                break;
-            }
             char ch1 = line[i];
             char ch2 = line[i+1];
+//            printf("ch1: %c \n", ch1);
+//            printf("ch2: %c \n", ch2);
+           // printf("ch3: %c \n", ch3);
+           // printf("ch4: %c \n", ch4);
 
-            for(int j = i; j < len; j++) {
-                char ch3 = line[j + 2];
-                char ch4 = line[j+3];
+            for(int j = i+2; j < len; j++) {
+                char ch3 = line[j];
+                char ch4 = line[j+1];
+//                printf("ch3: %c \n", ch3);
+//                printf("ch4: %c \n", ch4);
+
                 if(ch1 == ch3 && ch2 == ch4) { 
                     reapearing_count++;
+                    printf("Reapearing_count = %i \n", reapearing_count);
                 }
 
                 if(ch1 == ch3 && ch1 != ch2) { 
                     pairing_count++;
+                    printf("Pairing_count = %i \n", pairing_count);
                 }
 
                 if(reapearing_count > 0 && pairing_count > 0) {
                     num_nice_string++;
                     reapearing_count = 0;
                     pairing_count = 0;
+                    printf("Num_nice_string = %i \n", num_nice_string);
+                    printf("\n\n");
                     break;
                 }
             }
