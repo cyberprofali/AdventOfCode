@@ -2,10 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main() { 
+int process_grid_instruction(const char *line) { 
 
+    char action;
+    int x1, y1, x2, y2;
+    
+    int num_lights_on;
+
+    if(sscanf(line, "turn on %d,%d through %d,%d", &x1, &y1, &x2, &y2) == 4) {
+        
+    } else if (sscanf(line, "turn off %d,%d through %d,%d", &x1, &y1, &x2, &y2) == 4) { 
+
+    } else if (sscanf(line, "toggle %d,%d through %d,%d", &x1, &y1, &x2, &y2) == 4) { 
+
+    } else {
+        printf("[ERROR] Unknown instruction: '%s'\n", line);
+    }
+
+    return num_lights_on;
+}
+
+int main() { 
+    
     char line[256];
-    int num_nice_string = 0;
+    
+    int total_lights_on = 0;
 
     FILE *in_file = fopen("input.txt", "r"); 
     
@@ -14,48 +35,21 @@ int main() {
         exit(-1);             
     }
     
-    while(fgets(line, sizeof(line), in_file)) { 
-        int vowel_count = 0;
-        int has_double = 0;
-        int is_naughty = 0;
+    while(fgets(line, sizeof(line), in_file) != NULL) { 
+        // Removing trailing newline character (/n) if present
+        line[strcspn(line, "\r\n")] = '\0';
 
-        size_t len = strlen(line);
-        
-        if(line[len - 1] == '\n') { 
-            line[len - 1] = '\0';
-            len--; 
+        // Skipping empty lines
+        if(strlen(line) == 0) { 
+            continue;
         }
 
-        for(int i = 0; i < len; i++) { 
-            char ch = line[i];
-            
-            // Count vowels
-            if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') { 
-                vowel_count++; 
-            }
-            
-            // Check for double leter
-            if(i < len - 1 && line[i] == line[i+1]) { 
-                has_double = 1;
-            }
+        // process and execute the command
+        total_lights_on += process_grid_instruction(line); 
+    }
 
-            // Checks for disallowed substrings
-            if(i < len - 1) { 
-                if((ch == 'a' && line[i+1] == 'b') ||
-                   (ch == 'c' && line[i+1] == 'd') ||
-                   (ch == 'p' && line[i+1] == 'q') ||
-                   (ch == 'x' && line[i+1] == 'y')) { 
-                    is_naughty = 1;
-                    break; 
-                }
-            }
-        } 
-        
-        if(!is_naughty && vowel_count >= 3 && has_double) { 
-            num_nice_string++;
-        }
-    }    
-        printf("Number of nice strings: %i\n", num_nice_string);    
+    printf("Total number of lights on: %i", total_lights_on);
+
     // closing files
     fclose(in_file);
 }
